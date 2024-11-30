@@ -25,5 +25,5 @@ jobs:
     - name: Deploy Application
       run: |
         mkdir -p ~/app
-        cp target/*.jar ~/app/
+        cp target/*.jar ~/opt/tomcat/webapps/
         nohup java -jar ~/app/*.jar > ~/app/app.log 2>&1 &
