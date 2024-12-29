@@ -26,9 +26,9 @@ jobs:
 
       # Step 3: Conditional Build and Deploy for Main Branch
       - name: Build and Deploy to Development Server
-        if: github.ref_name == 'main'  # Build and deploy only for main branch
+        if: github.ref_name == 'master'  # Build and deploy only for main branch
         run: |
-          echo "Building artifact for main branch"
+          echo "Building artifact for master branch"
           mvn clean package
           echo "Deploying to Development Server"
           scp -i ${{ secrets.SSH_PRIVATE_KEY }} -o StrictHostKeyChecking=no target/*.war ${{ secrets.DEV_USER }}@${{ secrets.DEV_HOST }}:/opt/tomcat/webapps/
@@ -39,7 +39,7 @@ jobs:
 
       # Step 4: Conditional Build and Deploy for Prod Branch
       - name: Build and Deploy to Production Server
-        if: github.ref_name == 'prod'  # Build and deploy only for prod branch
+        if: github.ref_name == 'dev'  # Build and deploy only for prod branch
         run: |
           echo "Building artifact for prod branch"
           mvn clean package
@@ -52,7 +52,7 @@ jobs:
 
       # Step 5: Conditional Build for Feature Branch
       - name: Build Artifact for Feature Branch
-        if: startsWith(github.ref_name, 'feature/')  # Build only for feature branches
+        if: startsWith(github.ref_name, 'build/')  # Build only for feature branches
         run: |
           echo "Building artifact for feature branch"
           mvn clean package
